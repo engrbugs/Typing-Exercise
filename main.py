@@ -9,6 +9,8 @@ import write_config
 import var
 from colorama import Fore
 
+WINDOW_TEXT = ''
+
 LEN_WORDS_CHARS = 5  # char per word
 
 BOLD = "\033[1m"
@@ -19,9 +21,7 @@ SET_CHANGE_TRAINING_WORD = 'change training'
 INI_FILE = 'data.ini'
 
 
-
-
-def wile():
+def timer_loop():
     global current_time
     loop_exit = None
     start_time = 0
@@ -29,7 +29,7 @@ def wile():
     start_pressed = None
     readed = ''
     while not loop_exit:  # making a loop
-        if str(active_window.get_active_window()) == var.window_text:
+        if str(active_window.get_active_window()) == WINDOW_TEXT:
             try:  # used try so that if user pressed other than the given key error will not be shown
                 readed = keyboard.read_key()
                 if readed == 'enter':
@@ -53,18 +53,15 @@ def wile():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-
-
     init()
     write_config.read_ini()
-
+    WINDOW_TEXT = str(active_window.get_active_window())
 
     # print(Fore.RED + 'some red text')
     # print(Back.GREEN + 'and with a green background')
     # print(Style.DIM + 'and in dim text')
     # print(Style.RESET_ALL)
     # print('back to normal now')
-    print(f'Window text: {str(str(active_window.get_active_window()))}')
     print(f'Typing Exercise: {Fore.BLUE}{BOLD}{var.training_word}{END} (type to change: {SET_CHANGE_TRAINING_WORD})')
 
     word = 'engrbugs@gmail.com'
@@ -72,7 +69,7 @@ if __name__ == '__main__':
     current_time = 0
 
     logging.info("Main  : before creating thread")
-    t1 = threading.Thread(target=wile)
+    t1 = threading.Thread(target=timer_loop)
     logging.info("Main  : before running thread")
     t1.start()
     logging.info("Main  : waiting for thread to finish")
