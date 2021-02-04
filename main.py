@@ -7,8 +7,10 @@ from lib import active_window
 from lib import write_config
 import var
 from colorama import Fore
+import os
 
 WINDOW_TEXT = ''
+VERSION = '0.6.1'
 
 
 def timer_loop():
@@ -48,13 +50,18 @@ def check_word(word):
     return result
 
 
+def welcome_display():
+    print(f'Typing Exercise{VERSION}: {Fore.BLUE}{var.BOLD}{var.training_word}{var.END_COLORAMA} '
+          f'(type to change: {var.SET_CHANGE_TRAINING_WORD})')
+
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     init()
-    write_config.read_ini()
+    if os.path.exists(var.APP_PATH + f'\\{var.INI_FILE}'):
+        write_config.read_ini()
     WINDOW_TEXT = str(active_window.get_active_window())
-    print(f'Typing Exercise: {Fore.BLUE}{var.BOLD}{var.training_word}{var.END_COLORAMA} '
-          f'(type to change: {var.SET_CHANGE_TRAINING_WORD})')
+    welcome_display()
     current_time = 0
     loop_exit = None
     # start timer listener
@@ -71,9 +78,7 @@ if __name__ == '__main__':
             var.training_word = xy.strip()
             write_config.write_ini()
             print('New training word saved!')
-            print(
-                f'Typing Exercise: {Fore.BLUE}{var.BOLD}{var.training_word}{var.END_COLORAMA} '
-                f'(type to change: {var.SET_CHANGE_TRAINING_WORD})')
+            welcome_display()
         elif x.lower().strip() == var.EXIT_PROGRAM:
             loop_exit = True
             quit()
