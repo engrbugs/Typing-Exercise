@@ -1,13 +1,14 @@
 #! /usr/bin/env python3
-from colorama import init
+
 import threading
 import time
-import keyboard  # using module keyboard
-from lib import active_window
-from lib import write_config
-import var
-from colorama import Fore, Style
 import os
+
+from colorama import init, Fore, Style
+import keyboard  # using module keyboard
+
+from lib import active_window, write_config
+import var
 
 WINDOW_TEXT = ''
 VERSION = '1.0.0'
