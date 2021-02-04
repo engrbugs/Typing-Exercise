@@ -6,11 +6,11 @@ import keyboard  # using module keyboard
 from lib import active_window
 from lib import write_config
 import var
-from colorama import Fore
+from colorama import Fore, Style
 import os
 
 WINDOW_TEXT = ''
-VERSION = '0.6.1'
+VERSION = '1.0.0'
 
 
 def timer_loop():
@@ -23,6 +23,9 @@ def timer_loop():
             readkey = keyboard.read_key()
             if readkey == 'enter':
                 readkey = ''
+            elif readkey == 'backspace':
+                var.total_missed_char += 1
+
             if readkey != '' and start_pressed is None:  # if key 'q' is pressed
                 start_pressed = True
                 start_time = time.time()
@@ -46,8 +49,11 @@ def check_word(word):
             else:
                 result += word[i]
     if i < len(var.training_word) - 1:
+        incorrect_char += len(var.training_word[i+1:])
         result += Fore.RED + var.training_word[i+1:] + var.END_COLORAMA
-    return result
+    if incorrect_char == 0:
+        result = Style.BRIGHT + result + var.END_COLORAMA
+    return result, incorrect_char
 
 
 def welcome_display():
@@ -55,7 +61,6 @@ def welcome_display():
           f'(type to change: {var.SET_CHANGE_TRAINING_WORD})')
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     init()
     if os.path.exists(var.APP_PATH + f'\\{var.INI_FILE}'):
@@ -79,21 +84,29 @@ if __name__ == '__main__':
             write_config.write_ini()
             print('New training word saved!')
             welcome_display()
+            break
         elif x.lower().strip() == var.EXIT_PROGRAM:
             loop_exit = True
             quit()
-        print(f'{check_word(x)} for {str(round(current_time, 2))}s')
-
-
-    # x = ''
-    # while x.lower() != exit_word:
-    #     print('Type Now:', end=">    ")
-    #     inputted_string = input()
-    #     #  Clean white spaces from beginning to end.
-    #     x = inputted_string.strip()
-    #     if x.lower() == word:
-    #         print('Correct!')
-    #     elif x.lower() == exit_word:
-    #         quit()
-    #     else:
-    #         print('Incorrect!')
+        elif x.lower().strip() == var.SET_RESET_DATA:
+            print('Are you sure? (yes/no)', end=":     ")
+            xy = input()
+            if xy.lower().strip() == 'yes':
+                print('Data reset.')
+                var.total_missed_char = 0
+                var.total_typed_char = 0
+                var.total_minutes = 0
+                write_config.write_ini()
+            welcome_display()
+            continue
+        report_word, report_mistakes = check_word(x)
+        var.total_missed_char += report_mistakes
+        var.total_typed_char += len(x)
+        var.total_minutes += current_time / 60
+        accuracy = 1 - (var.total_missed_char/var.total_typed_char)
+        wpm = var.total_typed_char / (var.total_minutes * var.LEN_WORDS_CHARS)
+        write_config.write_ini()
+        print(f'{report_word} (ACC: {str(round(accuracy * 100, 2))}%) '
+              f'for {str(round(current_time, 2))}s '
+              f'(WPM = {str(round(wpm, 2))}) '
+              f'Type \'{var.SET_RESET_DATA}\' to reset data')
