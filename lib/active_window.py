@@ -49,4 +49,3 @@ def get_active_window():
               .format(platform=sys.platform))
         print(sys.version)
     return active_window_name
-
