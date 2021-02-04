@@ -11,7 +11,7 @@ from lib import active_window, write_config
 import var
 
 WINDOW_TEXT = ''
-VERSION = '1.0.0'
+VERSION = '1.0.2'
 
 
 def timer_loop():
@@ -46,6 +46,7 @@ def check_word(word):
             result += Fore.RED + word[i] + var.END_COLORAMA
         else:
             if word[i] != var.training_word[i]:
+                incorrect_char += 1
                 result += Fore.RED + word[i] + var.END_COLORAMA
             else:
                 result += word[i]
@@ -85,7 +86,7 @@ if __name__ == '__main__':
             write_config.write_ini()
             print('New training word saved!')
             welcome_display()
-            break
+            continue
         elif x.lower().strip() == var.EXIT_PROGRAM:
             loop_exit = True
             quit()

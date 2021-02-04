@@ -8,5 +8,9 @@ Follow this other project instruction on how to install this repository with a m
 Instruction link:
 </br>
 [https://github.com/engrbugs/powertoys-run-browse](https://github.com/engrbugs/powertoys-run-browse)
+</br>
+</br>
+### Screenshot:
+![Screenshot](readme-img/typing-exercise-snippet.png)
 
 ## Have fun with your keyboard!
