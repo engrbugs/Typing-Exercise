@@ -9,7 +9,6 @@ Instruction link:
 </br>
 [https://github.com/engrbugs/powertoys-run-browse](https://github.com/engrbugs/powertoys-run-browse)
 </br>
-</br>
 ### Screenshot:
 ![Screenshot](readme-img/typing-exercise-snippet.png)
 
