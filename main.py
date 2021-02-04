@@ -11,7 +11,7 @@ from lib import active_window, write_config
 import var
 
 WINDOW_TEXT = ''
-VERSION = '1.0.2'
+VERSION = '1.0.3'
 
 
 def timer_loop():
@@ -60,7 +60,7 @@ def check_word(word):
 
 def welcome_display():
     print(f'Typing Exercise{VERSION}: {Fore.BLUE}{var.BOLD}{var.training_word}{var.END_COLORAMA} '
-          f'(type to change: {var.SET_CHANGE_TRAINING_WORD})')
+          f'(type: to \'{var.SET_CHANGE_TRAINING_WORD}\' training word and \'{var.SET_RESET_DATA}\' data)')
 
 
 if __name__ == '__main__':
@@ -110,5 +110,4 @@ if __name__ == '__main__':
         write_config.write_ini()
         print(f'{report_word} (ACC: {str(round(accuracy * 100, 2))}%) '
               f'for {str(round(current_time, 2))}s '
-              f'(WPM = {str(round(wpm, 2))}) '
-              f'Type \'{var.SET_RESET_DATA}\' to reset data')
+              f'(WPM = {str(round(wpm, 2))})')

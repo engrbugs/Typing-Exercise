@@ -7,7 +7,7 @@ LEN_WORDS_CHARS = 5  # char per word
 BOLD = "\033[1m"
 END_COLORAMA = "\033[0;0m"
 
-SET_CHANGE_TRAINING_WORD = 'change training'
+SET_CHANGE_TRAINING_WORD = 'change'
 SET_RESET_DATA = 'reset'
 EXIT_PROGRAM = 'exit'
 
